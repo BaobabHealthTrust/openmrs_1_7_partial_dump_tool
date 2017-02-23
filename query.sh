@@ -35,7 +35,7 @@ if [ "$DUMPDATA" = "y" ]; then
 
 		echo "Dumping $table...";
 	
-		mysqldump --opt -h$SOURCE_HOST -u$SOURCE_DATABASE_USERNAME -p$SOURCE_DATABASE_PASSWORD --no-create-info --where "DATE(date_created) >= DATE(\"$STARTDATE\") AND DATE(date_created) <= DATE(\"$ENDDATE\")" $SOURCE_DATABASE $table > "dumps/$table.sql"
+		mysqldump --opt -h$SOURCE_HOST -u$SOURCE_DATABASE_USERNAME -p$SOURCE_DATABASE_PASSWORD --no-create-info --replace --where "DATE(date_created) >= DATE(\"$STARTDATE\") AND DATE(date_created) <= DATE(\"$ENDDATE\")" $SOURCE_DATABASE $table > "dumps/$table.sql"
 	
 	done
 
@@ -44,14 +44,14 @@ if [ "$DUMPDATA" = "y" ]; then
 
 		echo "Dumping $table...";
 	
-		mysqldump --opt -h$SOURCE_HOST -u$SOURCE_DATABASE_USERNAME -p$SOURCE_DATABASE_PASSWORD --no-create-info --where "(DATE(date_created) >= DATE(\"$STARTDATE\") AND DATE(date_created) <= DATE(\"$ENDDATE\")) OR (DATE(date_changed) >= DATE(\"$STARTDATE\") AND DATE(date_changed) <= DATE(\"$ENDDATE\"))" $SOURCE_DATABASE $table > "dumps/$table.sql"
+		mysqldump --opt -h$SOURCE_HOST -u$SOURCE_DATABASE_USERNAME -p$SOURCE_DATABASE_PASSWORD --no-create-info --replace --where "(DATE(date_created) >= DATE(\"$STARTDATE\") AND DATE(date_created) <= DATE(\"$ENDDATE\")) OR (DATE(date_changed) >= DATE(\"$STARTDATE\") AND DATE(date_changed) <= DATE(\"$ENDDATE\"))" $SOURCE_DATABASE $table > "dumps/$table.sql"
 	
 	done
 
 	# drug_order
 	echo "Dumping drug_order...";
 
-	mysqldump --opt --lock-all-tables -h$SOURCE_HOST -u$SOURCE_DATABASE_USERNAME -p$SOURCE_DATABASE_PASSWORD --no-create-info --where "order_id IN (SELECT order_id FROM orders WHERE DATE(date_created) >= DATE(\"$STARTDATE\") AND DATE(date_created) <= DATE(\"$ENDDATE\"))" $SOURCE_DATABASE drug_order > "dumps/$table.sql";
+	mysqldump --opt --lock-all-tables -h$SOURCE_HOST -u$SOURCE_DATABASE_USERNAME -p$SOURCE_DATABASE_PASSWORD --no-create-info --replace --where "order_id IN (SELECT order_id FROM orders WHERE DATE(date_created) >= DATE(\"$STARTDATE\") AND DATE(date_created) <= DATE(\"$ENDDATE\"))" $SOURCE_DATABASE drug_order > "dumps/$table.sql";
 
 fi
 
